@@ -1,30 +1,62 @@
 <template>
   <div>
+    <div align="center">
+      <gmap-map
+        :center="center"
+        :zoom="10"
+        style="width: 500px; height: 300px">
+      </gmap-map>
+    </div>
     <h1>{{cityText}}</h1>
+    <form class="search-form">
+      <input
+        type="text"
+        placeholder="Enter zip code..."
+        class="search-input"
+        v-model="zip"
+        v-on:keyup.enter="onEnterClick"/>
+    </form>
+
   </div>
 </template>
 
 <script>
-  let apiKey = 'AIzaSyBZl79IC5fZ4aj3lQo4UCT8yuP6JwSUy0Q'
    export default {
         name: "zip-looker-upper",
         mounted: function(event) {
-          var me = this;
-          this.axios.get( "http://api.zippopotam.us/us/29401")
-            .then(function response(res) {
-              let city = res.data.places[0]['place name'];
-              let state = res.data.places[0].state;
-              let lat = res.data.places[0].latitude;
-              let long = res.data.places[0].longitude;
-              me.cityText = `${city}, ${state}`
-            });
+          this.updateMap();
        },
      data () {
        return {
-         cityText:""
+         cityText:"",
+         zip: "29464",
+         center: {lat: 10.0, lng: 10.0},
+         markers: [{
+           position: {lat: 10.0, lng: 10.0}
+         }, {
+           position: {lat: 11.0, lng: 11.0}
+         }]
        }
      },
-    }
+     methods: {
+       onEnterClick() {
+         this.updateMap();
+       },
+       updateMap() {
+         var me = this;
+         this.axios.get("http://api.zippopotam.us/us/" + me.zip)
+           .then(function response(res) {
+             let city = res.data.places[0]['place name'];
+             let state = res.data.places[0].state;
+             let lat = parseFloat(res.data.places[0].latitude);
+             let long = parseFloat(res.data.places[0].longitude);
+             me.center = {lat: lat, lng: long};
+             me.cityText = `${city}, ${state}`
+           });
+       }
+     }
+   }
+
 </script>
 
 <style scoped>
