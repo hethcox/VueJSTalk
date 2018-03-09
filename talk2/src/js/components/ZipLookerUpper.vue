@@ -22,6 +22,7 @@
         placeholder="Enter zip code..."
         class="search-input"
         v-model="zip"
+        v-on:submit.prevent
         v-on:keyup.enter="onEnterClick"/>
     </form>
 
@@ -45,7 +46,8 @@
        this.updateMap();
      },
      methods: {
-       onEnterClick() {
+       onEnterClick(event) {
+         event.preventDefault();
          this.updateMap();
        },
        updateMap() {

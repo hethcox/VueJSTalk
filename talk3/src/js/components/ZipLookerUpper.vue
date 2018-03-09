@@ -45,7 +45,8 @@
             this.updateMap();
         },
         methods: {
-            onEnterClick() {
+            onEnterClick(event) {
+                event.preventDefault();
                 this.updateMap();
             },
             updateMap() {
