@@ -5,6 +5,14 @@
         :center="center"
         :zoom="10"
         style="width: 500px; height: 300px">
+        <gmap-marker
+          :key="index"
+          v-for="(m, index) in markers"
+          :position="m.position"
+          :clickable="true"
+          :draggable="true"
+          @click="center=m.position"
+        ></gmap-marker>
       </gmap-map>
     </div>
     <h1>{{cityText}}</h1>
@@ -33,8 +41,6 @@
          center: {lat: 10.0, lng: 10.0},
          markers: [{
            position: {lat: 10.0, lng: 10.0}
-         }, {
-           position: {lat: 11.0, lng: 11.0}
          }]
        }
      },
@@ -51,6 +57,7 @@
              let lat = parseFloat(res.data.places[0].latitude);
              let long = parseFloat(res.data.places[0].longitude);
              me.center = {lat: lat, lng: long};
+             me.markers = [{position:{lat: lat, lng: long}}];
              me.cityText = `${city}, ${state}`
            });
        }
