@@ -30,19 +30,19 @@
 
 <script>
    export default {
-        name: "zip-looker-upper",
-        mounted: function(event) {
-          this.updateMap();
-       },
      data () {
        return {
          cityText:"",
          zip: "29464",
-         center: {lat: 10.0, lng: 10.0},
+         center: {lat: 39.071484, lng: -98.584910},
          markers: [{
-           position: {lat: 10.0, lng: 10.0}
+           position: {lat: 39.071484, lng: -98.584910}
          }]
        }
+     },
+     mounted: function(event) {
+       console.log( "MOUNT UP")
+       this.updateMap();
      },
      methods: {
        onEnterClick() {
