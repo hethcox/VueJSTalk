@@ -23,7 +23,7 @@ export default {
     ...mapGetters('map', ['zipcode']),
 
     message () {
-      return this.zipcode ? `Current Location: ${this.zipcode}` : 'I need a zipcode, please!'
+      return this.zipcode ? `${this.zipcode}` : 'I need a zipcode, please!'
     }
   },
   components: {Locations},
