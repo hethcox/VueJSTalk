@@ -45,6 +45,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      mapboxgl: 'mapbox-gl'
+    }),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
