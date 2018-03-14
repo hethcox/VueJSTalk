@@ -14,7 +14,11 @@ export default {
   mixins: [],
   extends: {},
   props: {},
-  data () {},
+  data () {
+    return {
+
+    }
+  },
   computed: {
     ...mapGetters('map', ['zipcode']),
 
