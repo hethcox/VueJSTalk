@@ -13,7 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "mapbox-geocoding": "^0.1.5",
+    "axios": "^0.18.0",
     "mapbox-gl": "^0.44.1",
     "mapbox-gl-vue": "^1.7.0",
     "vue": "^2.5.2",
