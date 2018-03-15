@@ -4,10 +4,11 @@
 
 <script>
 import Mapbox from 'mapbox-gl-vue'
-import Geo from 'mapbox-geocoding'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {mapGetters, mapActions} from 'vuex'
+
+import Geocoder from '@/services/geocode'
 
 export default {
   name: 'Map',
@@ -46,22 +47,20 @@ export default {
     draw () {
       const coordinates = this.geocode()
 
-      coordinates.then((coordinates) => {
-        new mapboxgl.Marker().setLngLat(coordinates).addTo(this.map)
+      coordinates.then((response) => {
+        if (response) {
+          const location = response.data.features[0]
+          this.addLocation(location.place_name)
+          new mapboxgl.Marker().setLngLat(location.geometry.coordinates).addTo(this.map)
+        }
       })
     },
 
     geocode () {
-      Geo.setAccessToken(this.key)
+      const geocoder = new Geocoder(this.key)
 
-      return new Promise((resolve, reject) => {
-        Geo.geocode('mapbox.places', this.zipcode, (err, data) => {
-          if (!err) {
-            const location = data.features[0]
-            this.addLocation(location.place_name)
-            resolve(location.geometry.coordinates)
-          }
-        })
+      return geocoder.fetch(this.zipcode, {
+        'country': 'US'
       })
     }
   },
