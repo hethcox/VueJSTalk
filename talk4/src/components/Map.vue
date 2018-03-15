@@ -45,15 +45,17 @@ export default {
     },
 
     draw () {
-      const coordinates = this.geocode()
+      if (this.zipcode) {
+        const coordinates = this.geocode()
 
-      coordinates.then((response) => {
-        if (response) {
-          const location = response.data.features[0]
-          this.addLocation(location.place_name)
-          new mapboxgl.Marker().setLngLat(location.geometry.coordinates).addTo(this.map)
-        }
-      })
+        coordinates.then((response) => {
+          if (response) {
+            const location = response.data.features[0]
+            this.addLocation(location.place_name)
+            new mapboxgl.Marker().setLngLat(location.geometry.coordinates).addTo(this.map)
+          }
+        })
+      }      
     },
 
     geocode () {
