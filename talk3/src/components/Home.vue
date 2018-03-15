@@ -3,9 +3,11 @@
         <section id="search-bar" class="section">
             <div class="columns">
                 <div class="column">
-                    <h3 class="title is-3">
+                    <div class="padded">
+                        <h3 class="title is-3">
                         Search for any location to add a marker.
-                    </h3>
+                        </h3>
+                    </div>
                     <form class="control" v-on:submit="findAddress">
                         <div class="field">
                             <input class="input" type="text" v-model="query" />
@@ -16,28 +18,27 @@
                     </form>
                 </div> 
                 <div class="column">
+                    <div class="map-container">
+                        <gmap-map
+                            ref="map"
+                            :center="center"
+                            :zoom="1.5"
+                            style="width: 100%; height: 100%;">
+                            <gmap-marker
+                                :key="index"
+                                v-for="(m, index) in markers"
+                                :position="m.position"
+                                :clickable="true"
+                                :draggable="true"
+                                @click="center=m.position">
+                            </gmap-marker>
+                        </gmap-map>
+                    </div>
                 </div>           
             </div>
         </section>
         <section id="map" class="section">
-            <div class="card map-container">
-                <div class="card-content map-container is-paddingless">
-                    <gmap-map
-                        ref="map"
-                        :center="center"
-                        :zoom="1.5"
-                        style="width: 100%; height: 100%;">
-                        <gmap-marker
-                            :key="index"
-                            v-for="(m, index) in markers"
-                            :position="m.position"
-                            :clickable="true"
-                            :draggable="true"
-                            @click="center=m.position">
-                        </gmap-marker>
-                    </gmap-map>
-                </div>
-            </div>
+            
         </section>
     </div>
 </template>
@@ -77,6 +78,7 @@
                             let lng = parseFloat(coords.lng);
                             self.markers.push({position:{lat: lat, lng: lng}});
                             self.updateCharts(country);
+                            self.query = '';
                         });
             }
         }
@@ -87,11 +89,20 @@
 <style scoped>
     .map-container {
         width: 100%;
-        height: 700px;
+        height: 100vh;
     }
 
     .vue-map-container, .vue-map-container .vue-map {
         width: 100%;
         height: 100%;
+    }
+
+    .section {
+        padding-top: 0;
+        padding-right: 0;
+    }
+
+    .padded {
+        padding-top: 2rem;
     }
 </style>
